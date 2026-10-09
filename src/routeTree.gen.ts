@@ -17,6 +17,7 @@ import { Route as AppProfileRouteImport } from './routes/_app/profile'
 import { Route as AppProgressRouteImport } from './routes/_app/progress'
 import { Route as AppRoadmapRouteImport } from './routes/_app/roadmap'
 import { Route as AppLearningIndexRouteImport } from './routes/_app/learning.index'
+import { Route as AppLearningCourseIdRouteImport } from './routes/_app/learning.$courseId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +58,11 @@ const AppLearningIndexRoute = AppLearningIndexRouteImport.update({
   path: '/learning/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLearningCourseIdRoute = AppLearningCourseIdRouteImport.update({
+  id: '/learning/$courseId',
+  path: '/learning/$courseId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AppProfileRoute
   '/progress': typeof AppProgressRoute
   '/roadmap': typeof AppRoadmapRoute
+  '/learning/$courseId': typeof AppLearningCourseIdRoute
   '/learning/': typeof AppLearningIndexRoute
 }
 export interface FileRoutesByTo {
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AppProfileRoute
   '/progress': typeof AppProgressRoute
   '/roadmap': typeof AppRoadmapRoute
+  '/learning/$courseId': typeof AppLearningCourseIdRoute
   '/learning': typeof AppLearningIndexRoute
 }
 export interface FileRoutesById {
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/_app/profile': typeof AppProfileRoute
   '/_app/progress': typeof AppProgressRoute
   '/_app/roadmap': typeof AppRoadmapRoute
+  '/_app/learning/$courseId': typeof AppLearningCourseIdRoute
   '/_app/learning/': typeof AppLearningIndexRoute
 }
 export interface FileRouteTypes {
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/roadmap'
+    | '/learning/$courseId'
     | '/learning/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/roadmap'
+    | '/learning/$courseId'
     | '/learning'
   id:
     | '__root__'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/_app/profile'
     | '/_app/progress'
     | '/_app/roadmap'
+    | '/_app/learning/$courseId'
     | '/_app/learning/'
   fileRoutesById: FileRoutesById
 }
@@ -181,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLearningIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/learning/$courseId': {
+      id: '/_app/learning/$courseId'
+      path: '/learning/$courseId'
+      fullPath: '/learning/$courseId'
+      preLoaderRoute: typeof AppLearningCourseIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -190,6 +209,7 @@ interface AppRouteChildren {
   AppProfileRoute: typeof AppProfileRoute
   AppProgressRoute: typeof AppProgressRoute
   AppRoadmapRoute: typeof AppRoadmapRoute
+  AppLearningCourseIdRoute: typeof AppLearningCourseIdRoute
   AppLearningIndexRoute: typeof AppLearningIndexRoute
 }
 
@@ -199,6 +219,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppProfileRoute: AppProfileRoute,
   AppProgressRoute: AppProgressRoute,
   AppRoadmapRoute: AppRoadmapRoute,
+  AppLearningCourseIdRoute: AppLearningCourseIdRoute,
   AppLearningIndexRoute: AppLearningIndexRoute,
 }
 
