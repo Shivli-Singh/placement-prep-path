@@ -30,7 +30,7 @@ function CoursePage() {
   const { done, toggle } = useLessonProgress();
   const [idx, setIdx] = useState(() => Math.max(0, lessons.findIndex((l) => !done.includes(l.id))));
   const [tab, setTab] = useState<"lesson" | "quiz">("lesson");
-  const lesson = lessons[idx];
+  const lesson = lessons[idx] ?? lessons[0]!;
   const doneCount = lessons.filter((l) => done.includes(l.id)).length;
   const isDone = done.includes(lesson.id);
 
