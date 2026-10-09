@@ -1,9 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Clock, BookOpen } from "lucide-react";
 import { Card, Bar, Level, PageHeader } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
-import { courses } from "@/lib/data";
-import { toast } from "sonner";
+import { useLessonProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/_app/learning/")({
   head: () => ({ meta: [{ title: "Learning Paths – PlacePrep" }, { name: "description", content: "Six structured placement learning paths." }, { property: "og:title", content: "Learning Paths – PlacePrep" }, { property: "og:description", content: "Six structured placement learning paths." }] }),
@@ -11,6 +10,7 @@ export const Route = createFileRoute("/_app/learning/")({
 });
 
 function Learning() {
+  const { courses } = useLessonProgress();
   return (
     <>
       <PageHeader title="Learning Paths" sub="Pick a path and continue where you left off." />
@@ -27,8 +27,8 @@ function Learning() {
                 <span className="flex items-center gap-1"><BookOpen className="h-3.5 w-3.5" />{c.lessons} lessons</span>
               </div>
               <Bar value={pct} className="mt-3" />
-              <Button className="mt-4" variant={pct > 0 ? "default" : "outline"} onClick={() => toast(`Opening "${c.title}" — lesson ${c.done + 1}`, { description: "Lesson content will load here in the full version." })}>
-                {pct > 0 ? "Continue" : "Start"}
+              <Button asChild className="mt-4" variant={pct > 0 ? "default" : "outline"}>
+                <Link to="/learning/$courseId" params={{ courseId: c.id }}>{pct === 100 ? "Review" : pct > 0 ? "Continue" : "Start"}</Link>
               </Button>
             </Card>
           );

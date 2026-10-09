@@ -18,6 +18,11 @@ export const codingQuestions = [
   { title: "Number of Islands", topic: "Graphs", difficulty: "Medium", company: "Google" },
   { title: "Coin Change", topic: "Dynamic Programming", difficulty: "Medium", company: "Accenture" },
   { title: "Merge K Sorted Lists", topic: "Linked List", difficulty: "Hard", company: "Flipkart" },
+  { title: "Maximum Subarray (Kadane's)", topic: "Arrays", difficulty: "Medium", company: "Cognizant" },
+  { title: "Palindrome Check", topic: "Strings", difficulty: "Easy", company: "Capgemini" },
+  { title: "Climbing Stairs", topic: "Dynamic Programming", difficulty: "Easy", company: "Zoho" },
+  { title: "Lowest Common Ancestor in BST", topic: "Trees", difficulty: "Medium", company: "Amazon" },
+  { title: "Word Ladder", topic: "Graphs", difficulty: "Hard", company: "Google" },
   { title: "Trapping Rain Water", topic: "Arrays", difficulty: "Hard", company: "Adobe" },
 ];
 
@@ -32,6 +37,16 @@ export const quizQuestions: Mcq[] = [
   { topic: "Verbal", q: "Pick the correctly spelled word.", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2, explain: "'Accommodate' has double c and double m." },
   { topic: "Technical", q: "Which data structure uses FIFO order?", options: ["Stack", "Queue", "Tree", "Graph"], answer: 1, explain: "Queue: First In, First Out." },
   { topic: "Technical", q: "Time complexity of binary search on a sorted array?", options: ["O(n)", "O(n log n)", "O(log n)", "O(1)"], answer: 2, explain: "The search space halves every step: O(log n)." },
+  { topic: "Quantitative", q: "Average of 12, 18, 20 and 30?", options: ["18", "20", "22", "19"], answer: 1, explain: "Sum 80 ÷ 4 = 20." },
+  { topic: "Quantitative", q: "A can finish a job in 10 days, B in 15 days. Together?", options: ["5 days", "6 days", "8 days", "12 days"], answer: 1, explain: "1/10 + 1/15 = 1/6 → 6 days." },
+  { topic: "Quantitative", q: "Simple interest on ₹2,000 at 5% per year for 3 years?", options: ["₹200", "₹250", "₹300", "₹350"], answer: 2, explain: "SI = PRT/100 = 2000×5×3/100 = 300." },
+  { topic: "Logical", q: "Odd one out: 3, 5, 7, 9, 11", options: ["3", "7", "9", "11"], answer: 2, explain: "9 is the only non-prime." },
+  { topic: "Logical", q: "Facing north, you turn right twice. Which way now?", options: ["North", "East", "South", "West"], answer: 2, explain: "North → East → South." },
+  { topic: "Verbal", q: "Antonym of 'Ancient'?", options: ["Old", "Modern", "Historic", "Antique"], answer: 1, explain: "Ancient means very old; modern is the opposite." },
+  { topic: "Verbal", q: "Fill in: She ___ to college every day.", options: ["go", "goes", "going", "gone"], answer: 1, explain: "Third-person singular takes 'goes'." },
+  { topic: "Technical", q: "Which SQL command removes a table completely?", options: ["DELETE", "TRUNCATE", "DROP", "REMOVE"], answer: 2, explain: "DROP deletes the table structure and data." },
+  { topic: "Technical", q: "Which is NOT an OOP pillar?", options: ["Inheritance", "Compilation", "Encapsulation", "Polymorphism"], answer: 1, explain: "The four pillars don't include compilation." },
+  { topic: "Technical", q: "Worst-case time of quicksort?", options: ["O(n log n)", "O(n)", "O(n²)", "O(log n)"], answer: 2, explain: "A bad pivot every time gives O(n²)." },
 ];
 
 export type RoadmapTask = { id: string; title: string };
