@@ -1,0 +1,91 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['userId', 'name', 'email']) &&
+        data.keys().hasOnly(['userId', 'name', 'email', 'college', 'branch', 'year', 'createdAt', 'updatedAt']) &&
+        data.userId == userId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+        data.email is string && data.email.size() > 0 && data.email.size() <= 150 &&
+        (!('college' in data) || (data.college is string && data.college.size() <= 150)) &&
+        (!('branch' in data) || (data.branch is string && data.branch.size() <= 100)) &&
+        (!('year' in data) || (data.year is string && data.year.size() <= 50));
+    }
+
+    function isValidQuizAttempt(data, userId) {
+      return data.keys().hasAll(['attemptId', 'userId', 'score', 'total']) &&
+        data.keys().hasOnly(['attemptId', 'userId', 'score', 'total', 'topic', 'createdAt']) &&
+        data.userId == userId &&
+        data.attemptId is string && data.attemptId.size() <= 128 &&
+        data.score is number && data.score >= 0 &&
+        data.total is number && data.total > 0 &&
+        (!('topic' in data) || (data.topic is string && data.topic.size() <= 50));
+    }
+
+    function isValidLessonProgress(data, userId) {
+      return data.keys().hasAll(['lessonId', 'userId']) &&
+        data.keys().hasOnly(['lessonId', 'userId', 'completedAt']) &&
+        data.userId == userId &&
+        data.lessonId is string && data.lessonId.size() > 0 && data.lessonId.size() <= 100;
+    }
+
+    function isValidResumeItem(data, userId) {
+      return data.keys().hasAll(['itemId', 'userId', 'status']) &&
+        data.keys().hasOnly(['itemId', 'userId', 'status', 'updatedAt']) &&
+        data.userId == userId &&
+        data.itemId is string && data.itemId.size() > 0 && data.itemId.size() <= 100 &&
+        data.status is string && (data.status == 'not_started' || data.status == 'in_progress' || data.status == 'completed');
+    }
+
+    // User profile document
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; // Disallow querying user list
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUserProfile(request.resource.data, userId);
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUserProfile(request.resource.data, userId) &&
+        request.resource.data.userId == resource.data.userId;
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      // Subcollection: Quiz attempts
+      match /quizAttempts/{attemptId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(attemptId) && isValidQuizAttempt(request.resource.data, userId);
+        allow update: if false; // Quiz scores are immutable once submitted
+        allow delete: if isOwner(userId) && isValidId(attemptId);
+      }
+
+      // Subcollection: Lesson completion progress
+      match /lessonProgress/{lessonId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(lessonId) && isValidLessonProgress(request.resource.data, userId);
+        allow update: if isOwner(userId) && isValidId(lessonId) && isValidLessonProgress(request.resource.data, userId);
+        allow delete: if isOwner(userId) && isValidId(lessonId);
+      }
+
+      // Subcollection: Resume checklist progress
+      match /resumeChecklist/{itemId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(itemId) && isValidResumeItem(request.resource.data, userId);
+        allow delete: if isOwner(userId) && isValidId(itemId);
+      }
+    }
+  }
+}

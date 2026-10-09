@@ -1,0 +1,107 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Student user profile details",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Auth UID of the student" },
+        "name": { "type": "string", "description": "Student full name", "maxLength": 100 },
+        "email": { "type": "string", "description": "Student email address", "maxLength": 150 },
+        "college": {
+          "type": "string",
+          "description": "Student college or university",
+          "maxLength": 150
+        },
+        "branch": {
+          "type": "string",
+          "description": "Engineering branch or major",
+          "maxLength": 100
+        },
+        "year": { "type": "string", "description": "Current year of study", "maxLength": 50 },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["userId", "name", "email"]
+    },
+    "QuizAttempt": {
+      "title": "QuizAttempt",
+      "description": "Score record for a completed MCQ quiz",
+      "type": "object",
+      "properties": {
+        "attemptId": { "type": "string", "description": "Unique identifier of attempt" },
+        "userId": { "type": "string", "description": "Auth UID of student" },
+        "score": { "type": "number", "description": "Correct answers score" },
+        "total": { "type": "number", "description": "Total number of questions" },
+        "topic": { "type": "string", "description": "Quiz topic category", "maxLength": 50 },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Submission timestamp"
+        }
+      },
+      "required": ["attemptId", "userId", "score", "total"]
+    },
+    "LessonProgress": {
+      "title": "LessonProgress",
+      "description": "Track completed lesson module",
+      "type": "object",
+      "properties": {
+        "lessonId": {
+          "type": "string",
+          "description": "Identifier of the completed lesson",
+          "maxLength": 100
+        },
+        "userId": { "type": "string", "description": "Auth UID of student" },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Completion timestamp"
+        }
+      },
+      "required": ["lessonId", "userId"]
+    },
+    "ResumeChecklistProgress": {
+      "title": "ResumeChecklistProgress",
+      "description": "Student resume section item completion status",
+      "type": "object",
+      "properties": {
+        "itemId": { "type": "string", "description": "Resume checklist item ID", "maxLength": 100 },
+        "userId": { "type": "string", "description": "Auth UID of student" },
+        "status": {
+          "type": "string",
+          "description": "Status of the item",
+          "enum": ["not_started", "in_progress", "completed"]
+        },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Update timestamp" }
+      },
+      "required": ["itemId", "userId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile collection partitioned by student user ID"
+    },
+    "/users/{userId}/quizAttempts/{attemptId}": {
+      "schema": "QuizAttempt",
+      "description": "Quiz attempts subcollection owned by the user"
+    },
+    "/users/{userId}/lessonProgress/{lessonId}": {
+      "schema": "LessonProgress",
+      "description": "Completed lessons subcollection owned by the user"
+    },
+    "/users/{userId}/resumeChecklist/{itemId}": {
+      "schema": "ResumeChecklistProgress",
+      "description": "Resume checklist items status subcollection owned by the user"
+    }
+  }
+}

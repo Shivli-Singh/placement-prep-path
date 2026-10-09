@@ -2,18 +2,31 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cn("rounded-xl border bg-card p-5 shadow-card", className)}>{children}</div>;
+  return (
+    <div className={cn("rounded-xl border bg-card p-5 shadow-card", className)}>{children}</div>
+  );
 }
 
 export function Bar({ value, className }: { value: number; className?: string }) {
   return (
     <div className={cn("h-2 w-full overflow-hidden rounded-full bg-secondary", className)}>
-      <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.min(100, value)}%` }} />
+      <div
+        className="h-full rounded-full bg-primary transition-all"
+        style={{ width: `${Math.min(100, value)}%` }}
+      />
     </div>
   );
 }
 
-export function PageHeader({ title, sub, children }: { title: string; sub?: string; children?: ReactNode }) {
+export function PageHeader({
+  title,
+  sub,
+  children,
+}: {
+  title: string;
+  sub?: string;
+  children?: ReactNode;
+}) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div>
@@ -26,15 +39,37 @@ export function PageHeader({ title, sub, children }: { title: string; sub?: stri
 }
 
 const levelStyles: Record<string, string> = {
-  Beginner: "bg-success/15 text-success", Easy: "bg-success/15 text-success",
-  Intermediate: "bg-warning/20 text-foreground", Medium: "bg-warning/20 text-foreground",
-  Advanced: "bg-destructive/10 text-destructive", Hard: "bg-destructive/10 text-destructive",
+  Beginner: "bg-success/15 text-success",
+  Easy: "bg-success/15 text-success",
+  Intermediate: "bg-warning/20 text-foreground",
+  Medium: "bg-warning/20 text-foreground",
+  Advanced: "bg-destructive/10 text-destructive",
+  Hard: "bg-destructive/10 text-destructive",
 };
 export function Level({ level }: { level: string }) {
-  return <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", levelStyles[level] ?? "bg-secondary")}>{level}</span>;
+  return (
+    <span
+      className={cn(
+        "rounded-full px-2.5 py-0.5 text-xs font-semibold",
+        levelStyles[level] ?? "bg-secondary",
+      )}
+    >
+      {level}
+    </span>
+  );
 }
 
-export function Stat({ label, value, hint, icon }: { label: string; value: string; hint?: string; icon: ReactNode }) {
+export function Stat({
+  label,
+  value,
+  hint,
+  icon,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+  icon: ReactNode;
+}) {
   return (
     <Card>
       <div className="flex items-start justify-between">

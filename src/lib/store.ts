@@ -8,7 +8,9 @@ export function useLocal<T>(key: string, initial: T) {
     try {
       const raw = localStorage.getItem(key);
       if (raw) setValue(JSON.parse(raw));
-    } catch {}
+    } catch {
+      // Ignore JSON parse or localStorage access errors
+    }
     setReady(true);
   }, [key]);
   const update = (v: T) => {
@@ -18,7 +20,13 @@ export function useLocal<T>(key: string, initial: T) {
   return [value, update, ready] as const;
 }
 
-export type Profile = { name: string; email: string; college: string; branch: string; year: string };
+export type Profile = {
+  name: string;
+  email: string;
+  college: string;
+  branch: string;
+  year: string;
+};
 export const defaultProfile: Profile = {
   name: "Ananya Sharma",
   email: "ananya.sharma@student.edu",

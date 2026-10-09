@@ -1,0 +1,6 @@
+{
+  "name": "Placement Prep Path",
+  "description": "Placement Training LMS for College Students",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
