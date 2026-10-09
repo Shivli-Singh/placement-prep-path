@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_app/learning/$courseId")({
 
 function CoursePage() {
   const { course } = Route.useLoaderData();
-  const { lessons, questions } = courseContent[course.id];
+  const { lessons, questions } = courseContent[course.id]!;
   const { done, toggle } = useLessonProgress();
   const [idx, setIdx] = useState(() => Math.max(0, lessons.findIndex((l) => !done.includes(l.id))));
   const [tab, setTab] = useState<"lesson" | "quiz">("lesson");
