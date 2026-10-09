@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, Trophy, Flame, CheckCircle2, ArrowRight, CalendarClock } from "lucide-react";
 import { Card, Bar, Stat, PageHeader } from "@/components/ui-kit";
-import { courses, upcomingTasks } from "@/lib/data";
+import { upcomingTasks } from "@/lib/data";
+import { useLessonProgress } from "@/lib/progress";
 import { useLocal, defaultProfile, type Attempt } from "@/lib/store";
 
 export const Route = createFileRoute("/_app/dashboard")({
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/_app/dashboard")({
 });
 
 function Dashboard() {
+  const { courses } = useLessonProgress();
   const [profile] = useLocal("pp-profile", defaultProfile);
   const [attempts] = useLocal<Attempt[]>("pp-attempts", []);
   const totalL = courses.reduce((a, c) => a + c.lessons, 0);
@@ -40,7 +42,7 @@ function Dashboard() {
               </div>
             ))}
             <Link to="/practice" className="flex items-center justify-between rounded-lg bg-accent p-4 text-sm font-medium text-accent-foreground">
-              Take today's 8-question aptitude quiz <ArrowRight className="h-4 w-4" />
+              Take today's aptitude quiz <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </Card>

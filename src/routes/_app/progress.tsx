@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from "recharts";
 import { Card, Bar, PageHeader } from "@/components/ui-kit";
-import { courses, sampleQuizHistory } from "@/lib/data";
+import { sampleQuizHistory } from "@/lib/data";
+import { useLessonProgress } from "@/lib/progress";
 import { useLocal, type Attempt } from "@/lib/store";
 
 export const Route = createFileRoute("/_app/progress")({
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/_app/progress")({
 });
 
 function Progress() {
+  const { courses } = useLessonProgress();
   const [attempts] = useLocal<Attempt[]>("pp-attempts", []);
   const mine = attempts.slice(-6).map((a, i) => ({ name: `Try ${i + 1}`, score: Math.round((a.score / a.total) * 100) }));
   const data = mine.length ? mine : sampleQuizHistory;
