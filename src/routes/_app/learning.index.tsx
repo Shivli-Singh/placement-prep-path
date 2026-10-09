@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { courses } from "@/lib/data";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_app/learning")({
+export const Route = createFileRoute("/_app/learning/")({
   head: () => ({ meta: [{ title: "Learning Paths – PlacePrep" }, { name: "description", content: "Six structured placement learning paths." }, { property: "og:title", content: "Learning Paths – PlacePrep" }, { property: "og:description", content: "Six structured placement learning paths." }] }),
   component: Learning,
 });
